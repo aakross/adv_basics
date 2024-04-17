@@ -6,22 +6,43 @@ class Quiz extends StatefulWidget {
   const Quiz({super.key});
 
   @override
-  State <Quiz> createState() {
+  State<Quiz> createState() {
     return _QuizState();
   }
 }
 
 class _QuizState extends State<Quiz> {
-Widget activeScreen = const StartScreen(); //activeScreen se declara como un widget que contiene otro widget
+// Widget activeScreen = const StartScreen(switchScreen); //activeScreen se declara como un widget que contiene otro widget
 
-void switchScreen() { //Aqui en el switchScreen volvemos a renderizar la pantalla al presionar el boton y esto hace que cambie a la nueva pantalla
-  setState(() { // lo que quiere decir es que va a iniciar con startScreen pero al presionar el boton cambiara a la pantalla de QuestionsScreen y ahi es donde entra el setState que sirve para renderizar el estado
-    activeScreen = const QuestionsScreen();
-  });
-}
+//Widget? activeScreen; //El signo significa que tambien puede ser un widget o puede ser nulo y esto nos ayuda a no darnos errores
+
+// @override
+//   void initState() {// El initState es el estado con el cual iniciara primero sin tomarle importancia al widget build
+//     activeScreen = StartScreen(switchScreen);
+//     super.initState();
+  //}
+
+  // void switchScreen() { //Aqui en el switchScreen volvemos a renderizar la pantalla al presionar el boton y esto hace que cambie a la nueva pantalla
+//   setState(() { // lo que quiere decir es que va a iniciar con startScreen pero al presionar el boton cambiara a la pantalla de QuestionsScreen y ahi es donde entra el setState que sirve para renderizar el estado
+//     activeScreen = const QuestionsScreen();
+//   });
+// }
+
+  var activeScreen = 'start-screen';
+  void switchScreen() {
+    setState(() {
+      activeScreen = 'Questions-screen';
+    });
+  }
 
   @override
-  Widget build(context){
+  Widget build(context) {
+    // final screenWidget = activeScreen == 'start-screen'
+    //     ? StartScreen(switchScreen)
+    //     : const QuestionsScreen();
+    
+    var screenWidget= StartScreen(switchScreen);
+
     return MaterialApp(
       home: Scaffold(
         body: Container(
@@ -35,8 +56,7 @@ void switchScreen() { //Aqui en el switchScreen volvemos a renderizar la pantall
                 end: Alignment.bottomRight,
               ),
             ),
-            child: activeScreen,
-      ),
+            child: screenWidget),
       ),
     );
   }
