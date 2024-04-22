@@ -4,7 +4,9 @@ import 'package:adv_basics/data/questions.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class QuestionsScreen extends StatefulWidget {
-  const QuestionsScreen({super.key});
+  const QuestionsScreen({super.key, required this.onSelectAnswer});
+
+  final void Function(String answer) onSelectAnswer;
 
   @override
   State<QuestionsScreen> createState() {
@@ -15,7 +17,8 @@ class QuestionsScreen extends StatefulWidget {
 class _QuestionsScreenState extends State<QuestionsScreen> {
   var currentQuestionIndex = 0;
 
-  void anwersQuestion() {
+  void answersQuestion(String selectedAnswer) {
+    widget.onSelectAnswer(selectedAnswer);
     // currentQuestionIndex = currentQuestionIndex + 1;
     // currentQuestionIndex += 1; //Aqui le estamos diciendo a Dart que currentQuestionIndex va a ser igual a el valor actual + 1
     setState(() {
@@ -46,12 +49,15 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
             ),
             const SizedBox(height: 30),
             ...currentQuestion.getShuffleAnswers().map(
-              (asnwer) {
+              (answer) {
                 // El operador spread lo que hace es crear una copia de la lista y pasarla, se utilizao el spread porque en un children no pueden estar una lista dentro de una lista
                 //El item es la forma en que se llamaran los datos que contiene AnswerQuestions, puede llevar cualquier otro nombre pero se suigere ese
                 return AnswerButton(
-                  answerText: asnwer,
-                  onTap: anwersQuestion,
+                  answerText: answer,
+                  onTap: () {
+                    answersQuestion(
+                        answer); //Aqui tenemos acceso a la respuesta que pulso el usurio que se llama answer
+                  },
                 );
               },
             ),
