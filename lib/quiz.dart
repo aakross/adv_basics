@@ -43,7 +43,7 @@ class _QuizState extends State<Quiz> {
         .add(answer); //add nos permite agregar un nuevo valor a una cadena
     if (selectedAnswers.length == questions.length) {
       setState(() {
-        selectedAnswers = [];
+        //selectedAnswers = [];
         activeScreen = 'results-screen';
       });
     }
