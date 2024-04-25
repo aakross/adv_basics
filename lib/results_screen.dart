@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:adv_basics/data/questions.dart';
-import 'package:adv_basics/questions_summary.dart';
+//import 'package:adv_basics/questions_summary.dart';
+import 'package:adv_basics/questions_summary/questions_summary.dart';
 
 class ResultsScreen extends StatelessWidget {
-  const ResultsScreen({super.key, required this.chosenAnswers});
+  const ResultsScreen(
+      {super.key, required this.chosenAnswers, required this.onRestart});
 
+  final void Function() onRestart;
   final List<String> chosenAnswers;
 
 //Un Map es una estructura de datos muy simple que asigna valores a key's
@@ -33,7 +36,6 @@ class ResultsScreen extends StatelessWidget {
     final numTotalQuesitons = questions.length;
     final numCorrectQuestions = summaryData.where((data) {
       //Where te permite crear otra lista sin modificar la original en este caso esta creando una nueva lista con las respuestas correctas
-
       return data['user_answer'] == data['correct_answer'];
     }).length; //Agregando length nos dara el resultado en numeros ya que sin eso solo nos daria una lista nueva con las preguntas contestadas
 
@@ -53,22 +55,17 @@ class ResultsScreen extends StatelessWidget {
             const SizedBox(
               height: 30,
             ),
-            QuestionsSummary(getSummaryData()),
+            QuestionsSummary(summaryData),
             const SizedBox(
               height: 30,
             ),
-            TextButton(
+            TextButton.icon(
+              onPressed: onRestart,
               style: TextButton.styleFrom(
                 foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50),
-                ),
               ),
-              onPressed: () {},
-              child: const Text(
-                'Restart Quiz!',
-                style: TextStyle(color: Colors.white),
-              ),
+              icon: const Icon(Icons.refresh),
+              label: const Text('Restar Quiz'),
             ),
           ],
         ),
